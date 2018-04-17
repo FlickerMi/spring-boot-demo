@@ -1,0 +1,63 @@
+spring:
+  session:
+    store-type: none
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/yushux?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: mxf202020
+    #最大活跃数
+    maxActive: 20
+    #初始化数量
+    initialSize: 1
+    #最大连接等待超时时间
+    maxWait: 60000
+    #打开PSCache，并且指定每个连接PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+  jpa:
+    show-sql: false
+    format-sql: false
+    hibernate:
+      ddl-auto: update
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+    default-property-inclusion: non_null
+  redis:
+    host: localhost
+    port: 6379
+    password: myredis
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    encoding: UTF-8
+    ontent-type: text/html
+    # 是否检查模板路径是否存在，默认true
+    check-template-location: true
+    # 是否允许MVC使用Thymeleaf，默认为: true
+    enabled: true
+    # 指定不使用模板的视图名称，多个以逗号分隔
+    # excluded-view-names:
+    # 指定模板的解析顺序，默认为第一个
+    # template-resolver-taoBaoOrder:
+    # 指定使用模板的视图名，多个以逗号分隔
+    # view-names
+  http:
+    encoding:
+      charset: utf-8
+      force: true
+      enabled: true
+jwt:
+  secret: iamsecret
+taobao:
+  open:
+    app_key: 23408349
+    app_secret: 36ea44f15f59689167e53517acd8f536
+
+wechat:
+  app:
+    app_id: wx88a086817b3a616e
+    app_secret: 6daee5950d258b83a72876ef200786b9

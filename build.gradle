@@ -1,0 +1,79 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.1.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+		maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath('se.transmode.gradle:gradle-docker:1.2')
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'cn.notemi'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+	maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+}
+
+jar{
+	baseName = 'spring-boot-demo'
+	version = '0.1.0'
+}
+
+//task buildDocker(type: Docker, dependsOn: build) {
+//	push = false
+//	applicationName = jar.baseName
+//	tagVersion = version
+//	dockerfile = file('src/main/docker/Dockerfile')
+//	doFirst {
+//		copy {
+//			from jar
+//			into stageDir
+//		}
+//	}
+//}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-web') {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+	}
+	//compile('org.springframework.boot:spring-boot-starter-jetty')
+//	compile('org.springframework.boot:spring-boot-starter-amqp')
+//	compile('org.springframework.boot:spring-boot-starter-aop')
+//	compile('org.springframework.boot:spring-boot-starter-cache')
+//	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+//	compile('org.springframework.boot:spring-boot-starter-data-redis')
+//	compile('org.springframework.boot:spring-boot-starter-data-rest')
+//	compile('org.springframework.boot:spring-boot-starter-security')
+//	compile('org.springframework.boot:spring-boot-starter-validation')
+//	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+//	compile('net.sourceforge.nekohtml:nekohtml')
+//	compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+//	compile('com.auth0:java-jwt:3.1.0')
+//	compile('org.springframework.session:spring-session')
+//	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
+//	compile group: 'io.swagger', name: 'swagger-annotations', version: '1.5.17'
+	compile('com.alibaba:druid')
+	//	compile('org.flywaydb:flyway-core')
+	// https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on
+	//compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.59'
+	// https://mvnrepository.com/artifact/commons-codec/commons-codec
+	//compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
+//	compile('com.google.guava:guava:19.0')
+	runtime('mysql:mysql-connector-java')
+//	runtime('org.postgresql:postgresql')
+//	compileOnly('org.projectlombok:lombok')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
