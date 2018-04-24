@@ -3,6 +3,7 @@ package cn.notemi.model.entity;
 import cn.notemi.constant.AccountStatus;
 import cn.notemi.constant.Gender;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,6 +19,7 @@ import javax.persistence.Table;
 @Entity
 @Data
 @Table(name = "account")
+@EqualsAndHashCode(callSuper=false)
 public class Account extends BaseEntity {
     private String username;
     private Integer age;
