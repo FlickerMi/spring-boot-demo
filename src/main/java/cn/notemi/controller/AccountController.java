@@ -40,8 +40,8 @@ public class AccountController {
     }
 
     @GetMapping(value = {"/all"})
-    public List<Account> findAccountAll(String name) {
-        return accountService.findAllAccount(name);
+    public List<Account> findAccountAll(String username) {
+        return accountService.findAllAccount(username);
     }
 
     @GetMapping(value = {"/{id}"})

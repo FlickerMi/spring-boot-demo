@@ -44,10 +44,10 @@ public class AccountService {
         return accountRepository.save(accountInDB);
     }
 
-    public List<Account> findAllAccount(String name) {
-        if (name != null){
-            logger.info("Find all account form by name: {}", name);
-            return accountRepository.findAllByName(name);
+    public List<Account> findAllAccount(String username) {
+        if (username != null){
+            logger.info("Find all account form by user name: {}", username);
+            return accountRepository.findAllByUsername(username);
         }
         logger.info("Find all account form");
         return accountRepository.findAll();

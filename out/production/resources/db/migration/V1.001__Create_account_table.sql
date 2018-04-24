@@ -1,8 +1,10 @@
 CREATE TABLE account(
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255),
+  username VARCHAR(255),
   password VARCHAR(255),
-  age VARCHAR(255),
+  gender VARCHAR(255),
+  status VARCHAR(255),
+  age INT ,
   created_by VARCHAR(255),
   updated_by VARCHAR(255),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

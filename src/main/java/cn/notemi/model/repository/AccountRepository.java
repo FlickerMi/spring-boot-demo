@@ -12,5 +12,5 @@ import java.util.List;
  * @create 2018/4/18 0018 11:01
  **/
 public interface AccountRepository extends JpaRepository<Account, Long> {
-    List<Account> findAllByName(String name);
+    List<Account> findAllByUsername(String username);
 }
