@@ -28,4 +28,5 @@ public class Account extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
     private String password;
+    private String wechatOpenId;
 }

@@ -62,5 +62,10 @@ spring:
       charset: utf-8
       force: true
       enabled: true
+  flyway:
+    locations: ["classpath:db/migration"]
+    baseline-on-migrate: true
+  messages:
+    encoding: UTF-8
 jwt:
   secret: iamsecret

@@ -1,5 +1,6 @@
 package cn.notemi.controller;
 
+import cn.notemi.constant.AccountStatus;
 import cn.notemi.model.entity.Account;
 import cn.notemi.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +41,17 @@ public class AccountController {
     }
 
     @GetMapping(value = {"/all"})
-    public List<Account> findAccountAll(String username) {
-        return accountService.findAllAccount(username);
+    public List<Account> findAccountAll(AccountStatus status) {
+        return accountService.findAllAccount(status);
     }
 
     @GetMapping(value = {"/{id}"})
     public Account findAccountById(@PathVariable(value = "id") Long id) {
         return accountService.findByAccountId(id);
+    }
+
+    @GetMapping(value = {"/mine"})
+    public Account findMyProfile() {
+        return accountService.findMyLoginProfile();
     }
 }
