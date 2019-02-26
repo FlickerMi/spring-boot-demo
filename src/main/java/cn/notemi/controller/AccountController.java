@@ -1,5 +1,6 @@
 package cn.notemi.controller;
 
+import cn.notemi.annotations.ResponseResult;
 import cn.notemi.constant.AccountStatus;
 import cn.notemi.model.entity.Account;
 import cn.notemi.service.AccountService;
@@ -15,8 +16,9 @@ import java.util.List;
  * @author Flicker
  * @create 2018/4/18 0018 11:40
  **/
+@ResponseResult
 @RestController
-@RequestMapping(value = APIController.ACCOUNT_URL)
+@RequestMapping(APIController.ACCOUNT_URL)
 public class AccountController {
     @Autowired
     AccountService accountService;

@@ -1,40 +1,51 @@
 package cn.notemi.core.exception;
 
 import cn.notemi.common.ErrorModel;
+import cn.notemi.constant.BusinessExceptionEnum;
+import cn.notemi.constant.ResultCode;
+import cn.notemi.utils.StringUtil;
+import lombok.Data;
 
+@Data
 public class BusinessException extends Exception {
-    private ErrorModel error = new ErrorModel();
+    private static final long serialVersionUID = 194906846739586856L;
+
+    protected String code;
+
+    protected String message;
+
+    protected ResultCode resultCode;
+
+    protected Object data;
 
     public BusinessException() {
+        BusinessExceptionEnum exceptionEnum = BusinessExceptionEnum.getByEClass(this.getClass());
+        if (exceptionEnum != null) {
+            resultCode = exceptionEnum.getResultCode();
+            code = exceptionEnum.getResultCode().code().toString();
+            message = exceptionEnum.getResultCode().message();
+        }
+
     }
 
     public BusinessException(String message) {
-        super(message);
-        this.error.setMessage(message);
+        this();
+        this.message = message;
     }
 
-    public BusinessException(String message, Throwable cause) {
-        super(message, cause);
-        this.error.setMessage(message);
+    public BusinessException(String format, Object... objects) {
+        this();
+        this.message = StringUtil.formatIfArgs(format, "{}", objects);
     }
 
-    public BusinessException(Throwable cause) {
-        super(cause);
+    public BusinessException(ResultCode resultCode, Object data) {
+        this(resultCode);
+        this.data = data;
     }
 
-    protected BusinessException(String message, Throwable cause,
-                                boolean enableSuppression,
-                                boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-        this.error.setMessage(message);
-    }
-
-    public BusinessException(String message, ErrorModel error) {
-        super(message);
-        this.error = error;
-    }
-
-    public ErrorModel getFieldError() {
-        return this.error;
+    public BusinessException(ResultCode resultCode) {
+        this.resultCode = resultCode;
+        this.code = resultCode.code().toString();
+        this.message = resultCode.message();
     }
 }

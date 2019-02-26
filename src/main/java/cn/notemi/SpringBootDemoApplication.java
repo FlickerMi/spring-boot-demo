@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
@@ -34,5 +35,10 @@ public class SpringBootDemoApplication {
 		messageSource.setDefaultEncoding("utf-8");
 		messageSource.setUseCodeAsDefaultMessage(true);
 		return messageSource;
+	}
+
+	@Bean
+	public RequestContextListener requestContextListener(){
+		return new RequestContextListener();
 	}
 }

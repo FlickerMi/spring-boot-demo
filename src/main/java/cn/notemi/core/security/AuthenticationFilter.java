@@ -1,11 +1,17 @@
 package cn.notemi.core.security;
 
+import cn.notemi.common.DefaultErrorResult;
+import cn.notemi.common.ErrorModel;
+import cn.notemi.common.HeaderConstants;
+import cn.notemi.constant.ResultCode;
 import cn.notemi.controller.APIController;
 import cn.notemi.utils.JacksonUtil;
+import com.alibaba.druid.support.json.JSONUtils;
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -51,10 +57,10 @@ public class AuthenticationFilter extends RequestHeaderAuthenticationFilter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-        Optional<String> username = Optional.ofNullable(httpRequest.getHeader("x-auth-username"));
-        Optional<String> password = Optional.ofNullable(httpRequest.getHeader("x-auth-password"));
-        Optional<String> token = Optional.ofNullable(httpRequest.getHeader("x-auth-token"));
-        Optional<String> wechatApp = Optional.ofNullable(httpRequest.getHeader("x-auth-wechat-app"));
+        Optional<String> username = Optional.ofNullable(httpRequest.getHeader(HeaderConstants.X_AUTH_USERNAME));
+        Optional<String> password = Optional.ofNullable(httpRequest.getHeader(HeaderConstants.X_AUTH_PASSWORD));
+        Optional<String> token = Optional.ofNullable(httpRequest.getHeader(HeaderConstants.X_AUTH_TOKEN));
+        Optional<String> wechatApp = Optional.ofNullable(httpRequest.getHeader(HeaderConstants.X_AUTH_WECHAT_APP));
 
         String resourcePath = new UrlPathHelper().getPathWithinApplication(httpRequest);
         logger.info("request method: {}  url: {}", httpRequest.getMethod(), resourcePath);
@@ -74,31 +80,32 @@ public class AuthenticationFilter extends RequestHeaderAuthenticationFilter {
             chain.doFilter(request, response);
         } catch (BadCredentialsException badCredentialsException) {
             logger.error("Bad credentials exception", badCredentialsException);
-            SecurityContextHolder.clearContext();
-            httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            httpResponse.addHeader("Content-Type", "application/json");
-            httpResponse.getWriter().printf(badCredentialsException.getMessage());
+            DefaultErrorResult errorResult = DefaultErrorResult.failure(ResultCode.USER_LOGIN_ERROR, badCredentialsException, HttpStatus.UNAUTHORIZED);
+            this.errorHandle(httpResponse, errorResult);
         } catch (InternalAuthenticationServiceException internalAuthException) {
             logger.error("Internal authentication service exception", internalAuthException);
             SecurityContextHolder.clearContext();
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         } catch (AuthenticationException authenticationException) {
             logger.error("Authentication exception", authenticationException);
-            SecurityContextHolder.clearContext();
-            httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            httpResponse.addHeader("Content-Type", "application/json");
-            httpResponse.getWriter().printf(authenticationException.getMessage());
+            DefaultErrorResult errorResult = DefaultErrorResult.failure(ResultCode.USER_LOGIN_ERROR, authenticationException, HttpStatus.UNAUTHORIZED);
+            this.errorHandle(httpResponse, errorResult);
         } catch (NoSuchElementException noSuchElementException) {
             logger.error("Authentication exception", noSuchElementException);
-            SecurityContextHolder.clearContext();
-            httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            httpResponse.getWriter().printf(noSuchElementException.getMessage());
+            DefaultErrorResult errorResult = DefaultErrorResult.failure(ResultCode.USER_TOKEN_NOT_EXIST, noSuchElementException, HttpStatus.UNAUTHORIZED);
+            this.errorHandle(httpResponse, errorResult);
         } finally {
             MDC.remove(TOKEN_SESSION_KEY);
             MDC.remove(USER_SESSION_KEY);
         }
     }
 
+    private void errorHandle(HttpServletResponse httpResponse, DefaultErrorResult errorResult) throws IOException {
+        SecurityContextHolder.clearContext();
+        httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        httpResponse.addHeader("Content-Type", "application/json");
+        httpResponse.getWriter().printf(JacksonUtil.toJSon(errorResult));
+    }
     private Boolean postToAuthentication(HttpServletRequest httpRequest, String resourcePath) {
         return resourcePath.toLowerCase().contains(APIController.AUTH_LOCAL_URL)
             && httpRequest.getMethod().equals("POST");

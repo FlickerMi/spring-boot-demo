@@ -14,14 +14,12 @@ public class APIController {
 
     public static String[] getNoAuthGetUrls() {
         return new String[]{
-            AUTH_URL,
-            ACCOUNT_URL + "/*"
+            AUTH_URL
         };
     }
 
     public static String[] getNoAuthPostUrls() {
         return new String[]{
-            ACCOUNT_URL,
             AUTH_URL,
             AUTH_URL + "/action/activate",
         };
