@@ -69,3 +69,5 @@ spring:
     encoding: UTF-8
 jwt:
   secret: iamsecret
+swagger:
+  enabled: false

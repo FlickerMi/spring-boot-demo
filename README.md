@@ -2,7 +2,7 @@
 
 ## simple branch 
 
-* Spring Boot 2.0 大礼包
+* Spring Boot 2.0
 * Spring Data JPA
 * Jackson
 * Druid
@@ -12,9 +12,10 @@
 
 ## master branch
 
-* Spring Boot 2.0 大礼包
+* Spring Boot 2.0
 * Spring Data JPA
 * Spring Security
+* JWT
 * Redis
 * Thymeleaf
 * Session
@@ -24,3 +25,4 @@
 * Lombok
 * Flyway
 * Mysql
+* Swagger2(已整合授权相关功能)

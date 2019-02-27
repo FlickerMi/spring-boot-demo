@@ -5,7 +5,9 @@ import cn.notemi.constant.BusinessExceptionEnum;
 import cn.notemi.constant.ResultCode;
 import cn.notemi.utils.StringUtil;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class BusinessException extends Exception {
     private static final long serialVersionUID = 194906846739586856L;

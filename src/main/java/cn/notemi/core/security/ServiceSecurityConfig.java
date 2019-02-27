@@ -54,6 +54,7 @@ public class ServiceSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
+            //.anyRequest();
             .antMatchers(HttpMethod.POST, APIController.getNoAuthPostUrls())
             .and()
             .ignoring()

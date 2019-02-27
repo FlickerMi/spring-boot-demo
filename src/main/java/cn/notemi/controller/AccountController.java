@@ -4,6 +4,7 @@ import cn.notemi.annotations.ResponseResult;
 import cn.notemi.constant.AccountStatus;
 import cn.notemi.model.entity.Account;
 import cn.notemi.service.AccountService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ import java.util.List;
 @ResponseResult
 @RestController
 @RequestMapping(APIController.ACCOUNT_URL)
+@Api(tags="用户API")
 public class AccountController {
     @Autowired
     AccountService accountService;
